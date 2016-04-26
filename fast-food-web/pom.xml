@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>fast-food</artifactId>
+        <groupId>org.zhokha.fastfood</groupId>
+        <version>3.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.zhokha.fastfood.web</groupId>
+    <artifactId>fast-food-web</artifactId>
+    <packaging>war</packaging>
+
+    <properties>
+        <maven-jetty-plugin.version>6.1.26</maven-jetty-plugin.version>
+    </properties>
+
+    <build>
+        <finalName>fastfood</finalName>
+
+        <!--<plugins>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <port>8888</port>
+                </configuration>
+            </plugin>
+        </plugins>-->
+    </build>
+
+    <profiles>
+        <profile>
+            <id>jettyStart</id>
+            <build>
+                <finalName>fastfood</finalName>
+                <plugins>
+                    <plugin>
+                        <groupId>org.mortbay.jetty</groupId>
+                        <artifactId>maven-jetty-plugin</artifactId>
+                        <version>${maven-jetty-plugin.version}</version>
+
+                        <executions>
+                            <execution>
+                                <id>jetty-run</id>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+
+                        <configuration>
+                            <scanIntervalSeconds>9999</scanIntervalSeconds>
+
+                            <systemProperties>
+                                <systemProperty>
+                                    <name>org.mortbay.util.URI.charset</name>
+                                    <value>${project.build.sourceEncoding}</value>
+                                </systemProperty>
+                                <systemProperty>
+                                    <name>org.mortbay.jetty.Request.queryEncoding</name>
+                                    <value>${project.build.sourceEncoding}</value>
+                                </systemProperty>
+                            </systemProperties>
+                            <connectors>
+                                <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+                                    <port>8888</port>
+                                    <maxIdleTime>60000</maxIdleTime>
+                                </connector>
+                            </connectors>
+                            <webAppConfig>
+                                <contextPath>/fastfood</contextPath>
+                                <webXmlFile>${basedir}/src/main/webapp/WEB-INF/web.xml</webXmlFile>
+                                <defaultsDescriptor>${basedir}/src/main/webapp/WEB-INF/webdefault.xml</defaultsDescriptor>
+                                <baseResource implementation="org.mortbay.resource.ResourceCollection">
+                                    <resourcesAsCSV>${basedir}/src/main/webapp</resourcesAsCSV>
+                                </baseResource>
+                            </webAppConfig>
+                        </configuration>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.zhokha.fastfood.service</groupId>
+            <artifactId>fast-food-service</artifactId>
+            <version>3.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
+</project>
